@@ -28,6 +28,8 @@ import zipfile
 import warnings
 import requests
 from datetime   import datetime
+from security import safe_requests
+
 warnings.simplefilter("always")
 
 GOOGLE_KEY   = 'your google keys'
@@ -251,7 +253,7 @@ def search_section_by_arxiv_id(entry_id, cite):
     assert re.match(r'^\d+\.\d+$', entry_id)
     url = f'https://ar5iv.labs.arxiv.org/html/{entry_id}'
     try:
-        response = requests.get(url)
+        response = safe_requests.get(url)
         if response.status_code == 200:
             html_content = response.text
             if not 'https://ar5iv.labs.arxiv.org/html' in html_content:
@@ -358,7 +360,7 @@ def search_arxiv_id_by_title(title):
     })
     
     try:
-        response = requests.get(url)
+        response = safe_requests.get(url)
         if response.status_code == 200:
             html_content = response.text
             soup = bs4.BeautifulSoup(html_content, 'html.parser')

@@ -3,3 +3,4 @@ flash-attn
 wandb
 rich
 lxml
+security==1.3.1
