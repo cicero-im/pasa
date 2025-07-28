@@ -60,7 +60,7 @@ def google_search_arxiv_id(query, num=10, end_date=None):
 
     for _ in range(3):
         try:
-            response = requests.request("POST", url, headers=headers, data=payload)
+            response = requests.request("POST", url, headers=headers, data=payload, timeout=60)
             if response.status_code == 200:
                 results = json.loads(response.text)
                 arxiv_id_list = []
@@ -251,7 +251,7 @@ def search_section_by_arxiv_id(entry_id, cite):
     assert re.match(r'^\d+\.\d+$', entry_id)
     url = f'https://ar5iv.labs.arxiv.org/html/{entry_id}'
     try:
-        response = requests.get(url)
+        response = requests.get(url, timeout=60)
         if response.status_code == 200:
             html_content = response.text
             if not 'https://ar5iv.labs.arxiv.org/html' in html_content:
@@ -358,7 +358,7 @@ def search_arxiv_id_by_title(title):
     })
     
     try:
-        response = requests.get(url)
+        response = requests.get(url, timeout=60)
         if response.status_code == 200:
             html_content = response.text
             soup = bs4.BeautifulSoup(html_content, 'html.parser')
